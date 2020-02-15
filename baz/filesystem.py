@@ -1,7 +1,7 @@
 import os
 import json
 
-from constants import BAZ_PERSISTANT_DATA_FILE_LOCATION
+from baz.constants import BAZ_PERSISTANT_DATA_FILE_LOCATION
 
 
 def delete_configuration():

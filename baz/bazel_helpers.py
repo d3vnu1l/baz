@@ -2,7 +2,7 @@ import subprocess
 import os
 
 
-def parse_bazel_arguments(extra_arguments, verbose = False):
+def parse_bazel_arguments(extra_arguments, verbose=False):
     pre_arguments = []
     targets = []
     post_arguments = []
@@ -13,17 +13,17 @@ def parse_bazel_arguments(extra_arguments, verbose = False):
         if argument.startswith('-'):
             if request_type is None:
                 pre_arguments.append(argument)
-            else: 
+            else:
                 post_arguments.append(argument)
         elif argument.startswith(('//', ':')):
             targets.append(argument)
         elif request_type is None:
             request_type = argument
-        elif post_arguments is not None: # Catch --define asdf=asdf in post arguments
+        elif post_arguments is not None:  # Catch --define asdf=asdf in post arguments
             post_arguments.append(argument)
-        else: 
+        else:
             raise Exception('Could not process argument: {}'.format(argument))
-    
+
     if verbose:
         print("Request_type = {}".format(request_type))
         print("Targets = {}".format(targets))
@@ -38,14 +38,14 @@ def form_command_line(tool, baz_arguments, extra_arguments):
     return [tool] + pre_arguments + [request_type] + targets + baz_arguments + ["--tool_tag=baz"] + post_arguments
 
 
-def execute_command(command_line, shell = False):
+def execute_command(command_line, shell=False):
     result = -1
     try:
         if shell:
             command = [os.environ["SHELL"], "-i", "-c"] + [" ".join(command_line)]
             result = subprocess.run(command, check=True).returncode
         else:
-            result = subprocess.run(command_line, check = True).returncode
+            result = subprocess.run(command_line, check=True).returncode
     except subprocess.CalledProcessError as status:
         result = status.returncode
     except KeyboardInterrupt:

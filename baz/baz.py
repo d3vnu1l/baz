@@ -1,21 +1,19 @@
-#!/usr/bin/env python3
 import sys
 import os
 
-import bazel_helpers
-import filesystem
-from baz_args import parse_arguments
-from constants import COMMANDS_TO_DECORATE, BAZ_PERSISTANT_DATA_FILE_LOCATION, BUILD_SCRIPT_TEMPLATE
-from tui import run_tui
-from inventory import BazConfigInventory
+import baz.bazel_helpers as bazel_helpers
+import baz.filesystem as filesystem
+from baz.baz_args import parse_arguments
+from baz.constants import COMMANDS_TO_DECORATE, BAZ_PERSISTANT_DATA_FILE_LOCATION, BUILD_SCRIPT_TEMPLATE
+from baz.tui import run_tui
+from baz.inventory import BazConfigInventory
 
 
 def get_arguments_from_inventory(inventory):
     baz_arguments = []
     if inventory is not None:
         # Compilation Modes
-        baz_arguments.append('--compilation_mode=' +
-                             inventory.persistent_data["compilation_mode"])
+        baz_arguments.append('--compilation_mode=' + inventory.persistent_data["compilation_mode"])
         for key in inventory.config_keys:
             # Config keys
             if inventory.persistent_data[key] == True:
@@ -25,13 +23,12 @@ def get_arguments_from_inventory(inventory):
             if inventory.persistent_data[key] == True:
                 baz_arguments.append('--' + key)
         # Add user bazel flags
-        if inventory.persistent_data['bazelopts'] is not '':
+        if inventory.persistent_data['bazelopts'] != '':
             baz_arguments.append(inventory.persistent_data['bazelopts'])
 
     return baz_arguments
 
-
-if __name__ == "__main__":
+def run_baz():
     result = -1
     (args, extra_arguments) = parse_arguments()
 
@@ -42,8 +39,7 @@ if __name__ == "__main__":
         if filesystem.delete_configuration():
             print("{} was deleted.".format(BAZ_PERSISTANT_DATA_FILE_LOCATION))
         else:
-            print("No configuration found in: {}".format(
-                BAZ_PERSISTANT_DATA_FILE_LOCATION))
+            print("No configuration found in: {}".format(BAZ_PERSISTANT_DATA_FILE_LOCATION))
     else:
         command_line = None
 
@@ -82,3 +78,7 @@ if __name__ == "__main__":
             result = bazel_helpers.execute_command(command_line)
 
     sys.exit(result)
+
+if __name__ == "__main__":
+    run_baz()
+

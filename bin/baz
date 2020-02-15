@@ -1,0 +1,4 @@
+#!/usr/bin/env python3
+from baz.baz import run_baz
+
+run_baz()

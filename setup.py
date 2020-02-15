@@ -4,11 +4,11 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="baz-pkg-d3vnu1l",
-    version="0.1.0",
+    name="baz",
+    version="0.2.2",
     author="Ryan Deushane",
     author_email="radeushane@gmail.com",
-    description="A curses GUI for Bazel",
+    description="A wrapper for the Bazel build system that provides a curses GUI for persistent configuration.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/d3vnu1l/baz",
@@ -19,4 +19,9 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.5',
+    install_requires=[
+        'asciimatics>=1.11.0',
+        'dataclasses>=0.6',
+    ],
+    scripts=['bin/baz'],
 )

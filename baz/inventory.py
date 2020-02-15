@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from bazel_prober import BazelProber
-import filesystem
+from baz.bazel_prober import BazelProber
+import baz.filesystem as filesystem
 
 
 @dataclass

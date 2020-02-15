@@ -1,7 +1,7 @@
 import os
 import sys
 
-from constants import get_repo_root
+from baz.constants import get_repo_root
 
 
 class BazelProber:
