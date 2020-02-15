@@ -24,4 +24,6 @@ setuptools.setup(
         'dataclasses>=0.6',
     ],
     scripts=['bin/baz'],
+    test_suite='nose.collector',
+    tests_require=['nose'],
 )

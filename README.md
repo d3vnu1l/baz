@@ -20,7 +20,7 @@ site.USER_BASE # Prints something like `/home/username/.local/`
 Take this path, and add to your `~/.bashrc` as: `export PATH='$PATH:/home/username/.local/bin/`
 
 ## Usage
-* baz --help
+baz --help
 ```
 usage: baz.py [-h] [-e] [-p] [-q] [-d]
 
@@ -34,3 +34,5 @@ optional arguments:
   -d, --delete-configuration
                         Permenently delete the persistent configuration file.
 ```
+## Testing
+Unit tests can be run with `nosetests`.
