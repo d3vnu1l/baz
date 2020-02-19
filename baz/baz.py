@@ -28,57 +28,59 @@ def get_arguments_from_inventory(inventory):
 
     return baz_arguments
 
+
+def _form_command_line(extra_arguments):
+    inventory = BazConfigInventory()    # Gets or Creates inventory
+    baz_arguments = get_arguments_from_inventory(inventory)
+    tool = inventory.persistent_data['tool']
+
+    # Form command
+    command_line = bazel_helpers.form_command_line(
+        tool,
+        baz_arguments,
+        extra_arguments,
+    )
+    return (command_line, inventory, baz_arguments)
+
+
 def run_baz():
     result = -1
     (args, extra_arguments) = parse_arguments()
 
-    if args.configure:  # TUI
-        inventory = BazConfigInventory()    # Gets or Creates inventory
+    if args.configure:
+        inventory = BazConfigInventory() # Gets or Creates inventory
         result = run_tui(inventory)
-    elif args.delete_configuration:  # DELETE CONFIG
+    elif args.delete_configuration:
         if filesystem.delete_configuration():
             print("{} was deleted.".format(BAZ_PERSISTANT_DATA_FILE_LOCATION))
         else:
             print("No configuration found in: {}".format(BAZ_PERSISTANT_DATA_FILE_LOCATION))
+    elif args.print_settings:
+        (command_line, inventory, baz_arguments) = _form_command_line(extra_arguments)
+        print("Tool: {}".format(inventory.persistent_data['tool']))
+        print("Arguments: {}".format(baz_arguments))
     else:
-        command_line = None
-
         # Only one supported request should be present, otherwise pass through to Bazel immediately
         supported_request = list(set(extra_arguments).intersection(COMMANDS_TO_DECORATE))
-        if len(supported_request) == 1:
-            inventory = BazConfigInventory()    # Gets or Creates inventory
-            baz_arguments = get_arguments_from_inventory(inventory)
-            tool = inventory.persistent_data['tool']
 
-            # Form command
-            command_line = bazel_helpers.form_command_line(
-                tool,
-                baz_arguments,
-                extra_arguments,
-            )
-            if args.print_build_settings:   # PRINT
-                inventory = BazConfigInventory()    # Gets or Creates inventory
-                baz_arguments = get_arguments_from_inventory(inventory)
-                print("Tool: {}".format(tool))
-                print("Arguments: {}".format(baz_arguments))
-            elif args.emit_build_script:    # EMIT
+        if len(supported_request) == 1:
+            (command_line, _, baz_arguments) = _form_command_line(extra_arguments)
+
+            if args.emit_build_script: # Emit build script and do not execute command
                 script_path = os.path.join(os.getcwd(), "baz_command.sh")
+
                 with open(script_path, "w") as script:
                     script.write(BUILD_SCRIPT_TEMPLATE.format(command=" ".join(str(item) for item in command_line)))
                     print("Wrote file: {}".format(script_path))
-
             else:
                 # Execute real command
-                print(command_line)
+                print("Baz Flags: " + " ".join(baz_arguments))
                 result = bazel_helpers.execute_command(command_line, shell=True)
-
         else:
-            # Pass through directly to tool
-            command_line = ["bazel"] + extra_arguments
-            result = bazel_helpers.execute_command(command_line)
-
+            # Pass through directly to Bazel
+            result = bazel_helpers.execute_command(["bazel"] + extra_arguments)
     sys.exit(result)
+
 
 if __name__ == "__main__":
     run_baz()
-

@@ -13,10 +13,10 @@ setting build configuration options. If you need help with Bazel, run `bazel --h
 useful for exporting vanilla Bazel build commands to people who do not have baz.""",
     )
     parser.add_argument(
-        "-p", "--print-build-settings",
+        "-p", "--print-settings",
         action="store_true",
         default=False,
-        help="Prints the build settings configured for Baz.",
+        help="Prints the settings configured for Baz.",
     )
     parser.add_argument(
         "-q", "--configure",

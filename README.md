@@ -1,9 +1,9 @@
 # Baz
-A wrapper for bazel with a GUI for configuring arguments. Running `baz -q` opens a configuration gui where you can set persistant bazel settings by choosing from detected `.bazelrc` configs, and other bazel flags.
+A wrapper for bazel with a GUI for configuring arguments. Running `baz -q` opens a configuration gui where you can set persistent bazel settings by choosing from detected `.bazelrc` configs, and other bazel flags.
 
 ![image](https://i.imgur.com/g0eoEIt.png)
 
-Baz stores persistant information in `~/.config/baz/`. You can delete your configuration at any time with `baz -d`.
+Baz stores persistent information in `~/.config/baz/`. You can delete your configuration and start over at any time with `baz -d`.
 
 Add baz to your path and use baz as you would use bazel.
 
