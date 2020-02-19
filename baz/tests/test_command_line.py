@@ -20,3 +20,9 @@ class TestBaz(TestCase):
         # Output should begin with `usage:` if we have reached the help menu successfully
         self.assertTrue(str(help_return.stdout).startswith('usage:'))
 
+    def test_print(self):
+        help_return = subprocess.run([BAZ_SCRIPT_PATH, '--print-settings'], stdout=subprocess.PIPE, encoding="utf-8")
+
+        # Output should begin with `Tool: ` if we have reached the print menu successfully
+        self.assertTrue(str(help_return.stdout).startswith('Tool: '))
+
