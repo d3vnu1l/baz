@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="baz",
-    version="0.2.3",
+    version="0.2.4",
     author="Ryan Deushane",
     author_email="radeushane@gmail.com",
     description="A wrapper for the Bazel build system that provides a curses GUI for persistent configuration.",

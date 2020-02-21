@@ -1,5 +1,6 @@
 import itertools
 import sys
+import math
 
 from asciimatics.event import KeyboardEvent, MouseEvent
 from asciimatics.widgets import Frame, TextBox, Layout, Label, Divider, Text, CheckBox, Button, Background, DropdownList
@@ -8,6 +9,9 @@ from asciimatics.screen import Screen
 from asciimatics.exceptions import ResizeScreenError, StopApplication
 
 from baz.inventory import BazConfigInventory
+
+
+_CONFIG_COLUMNS=3
 
 
 class MainFrame(Frame):
@@ -26,9 +30,13 @@ class MainFrame(Frame):
         layout.add_widget(Label(" "), 2)
         layout.add_widget(Label(" "), 3)
 
-        toggle = itertools.cycle([1, 2, 3]).__next__
-        for config in self.inventory.config_keys:
-            layout.add_widget(CheckBox(config, name=config, on_change=self._on_data_field_change), toggle())
+        configs_per_column = math.ceil(len(self.inventory.config_keys)/_CONFIG_COLUMNS)
+        sorted_configs = tuple(itertools.zip_longest(*[iter(self.inventory.config_keys)]*configs_per_column))
+
+        for column in range(len(sorted_configs)):
+            for config in sorted_configs[column]:
+                if config:
+                    layout.add_widget(CheckBox(config, name=config, on_change=self._on_data_field_change), column + 1)
 
     def _create_compilation_modes_menu(self, layout):
         layout.add_widget(Label("Compilation Mode:"), 1)
