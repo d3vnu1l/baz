@@ -23,7 +23,7 @@ def _get_arguments_from_inventory(inventory):
             if inventory.persistent_data[key] == True:
                 baz_arguments.append('--' + key)
         # Add user bazel flags
-        if inventory.persistent_data['bazelopts'] != '':
+        if inventory.persistent_data['bazelopts'] != None:
             baz_arguments.append(inventory.persistent_data['bazelopts'])
 
     return baz_arguments
