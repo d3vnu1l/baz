@@ -16,8 +16,11 @@ def _get_arguments_from_inventory(inventory):
         baz_arguments.append('--compilation_mode=' + inventory.persistent_data["compilation_mode"])
         for key in inventory.config_keys:
             # Config keys
-            if inventory.persistent_data[key] == True:
-                baz_arguments.append('--config=' + key)
+            try:
+                if inventory.persistent_data[key] == True:
+                    baz_arguments.append('--config=' + key)
+            except:
+                pass # Arguments in the inventory may be out of sync with filesystem arguments, need to rework this
         for key in inventory.troubleshooting_keydict.keys():
             # Troubleshooting keys
             if inventory.persistent_data[key] == True:
