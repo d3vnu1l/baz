@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from baz.bazel_prober import BazelProber
-import baz.filesystem as filesystem
+from baz.filesystem import Filesystem
 
 
 @dataclass
@@ -8,14 +8,15 @@ class BazConfigInventory:
     '''Class for managing the use configuration inventory'''
 
     def __init__(self):
+        self._filesystem = Filesystem()
         self.config_keys = BazelProber.get_config_keys()
         self.troubleshooting_keydict = BazelProber.get_troubleshooting_keydict()
-        self.persistent_data = filesystem.read_configuration()
+        self.persistent_data = self._filesystem.read_configuration()
         if self.persistent_data is None:
             # Generate a config
             self.persistent_data = self.get_default_data()
             # Write to filesystem
-            filesystem.write_configuration(self.persistent_data)
+            self._filesystem.write_configuration(self.persistent_data)
 
     def get_default_data(self):
         default_config = dict()
@@ -43,9 +44,10 @@ class BazConfigInventory:
         return default_config
 
     def save_to_file(self, data):
-        filesystem.write_configuration(data)
+        self._filesystem.write_configuration(data)
         self.persistent_data = data
 
+    _filesystem = None,
     persistent_data = None
     config_keys = None
     troubleshooting_keydict = None

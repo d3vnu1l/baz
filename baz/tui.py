@@ -8,8 +8,6 @@ from asciimatics.scene import Scene
 from asciimatics.screen import Screen
 from asciimatics.exceptions import ResizeScreenError, StopApplication
 
-from baz.inventory import BazConfigInventory
-
 
 _CONFIG_COLUMNS=3
 

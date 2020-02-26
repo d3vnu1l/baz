@@ -1,10 +1,10 @@
 import sys
 import os
 
+from baz.filesystem import Filesystem
 import baz.bazel_helpers as bazel_helpers
-import baz.filesystem as filesystem
 from baz.baz_args import parse_arguments
-from baz.constants import COMMANDS_TO_DECORATE, BUILD_SCRIPT_TEMPLATE
+from baz.constants import COMMANDS_TO_DECORATE, BUILD_SCRIPT_TEMPLATE, GeneratedConstants
 from baz.tui import run_tui
 from baz.inventory import BazConfigInventory
 
@@ -51,9 +51,12 @@ def run_baz():
         inventory = BazConfigInventory() # Gets or Creates inventory
         result = run_tui(inventory)
     elif args.delete_configuration:
+        filesystem = Filesystem()
         filesystem.delete_configuration()
     elif args.print_settings:
         (command_line, inventory, baz_arguments) = _form_command_line(extra_arguments)
+        generated_constants = GeneratedConstants()
+        print("Config: {}".format(generated_constants.baz_config_file_location))
         print("Tool: {}".format(inventory.persistent_data['tool']))
         print("Arguments: " + " ".join([str(argument) for argument in baz_arguments if argument]))
     else:

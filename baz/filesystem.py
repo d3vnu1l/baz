@@ -1,44 +1,49 @@
 import os
 import json
 
-from baz.constants import BAZ_PERSISTANT_DATA_FILE_LOCATION
+from baz.constants import GeneratedConstants
 
 
-def delete_configuration():
-    file_was_deleted = False
-    if os.path.exists(BAZ_PERSISTANT_DATA_FILE_LOCATION):
-        os.remove(BAZ_PERSISTANT_DATA_FILE_LOCATION)
-        print("{} was deleted.".format(BAZ_PERSISTANT_DATA_FILE_LOCATION))
-        file_was_deleted = True
-    else:
-        print("No configuration found, expected: {}".format(BAZ_PERSISTANT_DATA_FILE_LOCATION))
+class Filesystem:
+    '''This class abstracts and simplifies handling baz configs'''
 
-    return file_was_deleted
+    def delete_configuration(self):
+        file_was_deleted = False
+        if os.path.exists(self.generated_constants.baz_config_file_location):
+            os.remove(self.generated_constants.baz_config_file_location)
+            print("{} was deleted.".format(self.generated_constants.baz_config_file_location))
+            file_was_deleted = True
+        else:
+            print("No configuration found, expected: {}".format(self.generated_constants.baz_config_file_location))
 
-
-def read_configuration():
-    """Returns a configuration JSON struct from the filesystem. Returns None is no file exists."""
-    persistent_data = None
-    try:
-        with open(BAZ_PERSISTANT_DATA_FILE_LOCATION, 'r') as f:
-            persistent_data = json.load(f)
-    except FileNotFoundError:
-        pass
-
-    return persistent_data
+        return file_was_deleted
 
 
-def write_configuration(config_dictionary):
-    success = False,
-    # Create directory for config if it does not exist
-    if not os.path.exists(os.path.dirname(BAZ_PERSISTANT_DATA_FILE_LOCATION)):
+    def read_configuration(self):
+        """Returns a configuration JSON struct from the filesystem. Returns None is no file exists."""
+        persistent_data = None
         try:
-            os.makedirs(os.path.dirname(BAZ_PERSISTANT_DATA_FILE_LOCATION))
-        except OSError:
+            with open(self.generated_constants.baz_config_file_location, 'r') as f:
+                persistent_data = json.load(f)
+        except FileNotFoundError:
             pass
 
-    with open(BAZ_PERSISTANT_DATA_FILE_LOCATION, 'w') as f:
-        json.dump(config_dictionary, f)
-        success = True
+        return persistent_data
 
-    return success
+
+    def write_configuration(self, config_dictionary):
+        success = False,
+        # Create directory for config if it does not exist
+        if not os.path.exists(os.path.dirname(self.generated_constants.baz_config_file_location)):
+            try:
+                os.makedirs(os.path.dirname(self.generated_constants.baz_config_file_location))
+            except OSError:
+                pass
+
+        with open(self.generated_constants.baz_config_file_location, 'w') as f:
+            json.dump(config_dictionary, f)
+            success = True
+
+        return success
+
+    generated_constants = GeneratedConstants()

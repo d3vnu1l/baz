@@ -28,7 +28,7 @@ useful for exporting vanilla Bazel build commands to people who do not have baz.
         "-d", "--delete-configuration",
         action="store_true",
         default=False,
-        help="Permenently delete the persistent configuration file."
+        help="Permenently delete the persistent configuration file for the current repository."
     )
 
     return parser.parse_known_args()
