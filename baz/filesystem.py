@@ -8,15 +8,12 @@ class Filesystem:
     '''This class abstracts and simplifies handling baz configs'''
 
     def delete_configuration(self):
-        file_was_deleted = False
+        deleted_filename = None
         if os.path.exists(self.generated_constants.baz_config_file_location):
             os.remove(self.generated_constants.baz_config_file_location)
-            print("{} was deleted.".format(self.generated_constants.baz_config_file_location))
-            file_was_deleted = True
-        else:
-            print("No configuration found, expected: {}".format(self.generated_constants.baz_config_file_location))
+            deleted_filename = self.generated_constants.baz_config_file_location
 
-        return file_was_deleted
+        return deleted_filename
 
 
     def read_configuration(self):

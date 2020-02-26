@@ -52,7 +52,12 @@ def run_baz():
         result = run_tui(inventory)
     elif args.delete_configuration:
         filesystem = Filesystem()
-        filesystem.delete_configuration()
+        deleted_file = filesystem.delete_configuration()
+        if deleted_file is not None:
+            print("{} was deleted.".format(deleted_file))
+        else:
+            print("No configuration file exists for this repository.")
+
     elif args.print_settings:
         (command_line, inventory, baz_arguments) = _form_command_line(extra_arguments)
         generated_constants = GeneratedConstants()
