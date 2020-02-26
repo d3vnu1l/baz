@@ -4,7 +4,7 @@ import os
 import baz.bazel_helpers as bazel_helpers
 import baz.filesystem as filesystem
 from baz.baz_args import parse_arguments
-from baz.constants import COMMANDS_TO_DECORATE, BAZ_PERSISTANT_DATA_FILE_LOCATION, BUILD_SCRIPT_TEMPLATE
+from baz.constants import COMMANDS_TO_DECORATE, BUILD_SCRIPT_TEMPLATE
 from baz.tui import run_tui
 from baz.inventory import BazConfigInventory
 
@@ -51,10 +51,7 @@ def run_baz():
         inventory = BazConfigInventory() # Gets or Creates inventory
         result = run_tui(inventory)
     elif args.delete_configuration:
-        if filesystem.delete_configuration():
-            print("{} was deleted.".format(BAZ_PERSISTANT_DATA_FILE_LOCATION))
-        else:
-            print("No configuration found in: {}".format(BAZ_PERSISTANT_DATA_FILE_LOCATION))
+        filesystem.delete_configuration()
     elif args.print_settings:
         (command_line, inventory, baz_arguments) = _form_command_line(extra_arguments)
         print("Tool: {}".format(inventory.persistent_data['tool']))

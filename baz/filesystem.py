@@ -8,7 +8,10 @@ def delete_configuration():
     file_was_deleted = False
     if os.path.exists(BAZ_PERSISTANT_DATA_FILE_LOCATION):
         os.remove(BAZ_PERSISTANT_DATA_FILE_LOCATION)
+        print("{} was deleted.".format(BAZ_PERSISTANT_DATA_FILE_LOCATION))
         file_was_deleted = True
+    else:
+        print("No configuration found, expected: {}".format(BAZ_PERSISTANT_DATA_FILE_LOCATION))
 
     return file_was_deleted
 

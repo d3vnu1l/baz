@@ -3,7 +3,7 @@ A wrapper for bazel with a GUI for configuring arguments. Running `baz -q` opens
 
 ![image](https://i.imgur.com/g0eoEIt.png)
 
-Baz stores persistent information in `~/.config/baz/`. You can delete your configuration and start over at any time with `baz -d`.
+Baz stores persistent information in `~/.config/baz/`. A unique config for each directory is generated and separate settings can be configured for multiple repositories. You can delete your configuration and start over at any time with `baz -d`.
 
 Add baz to your path and use baz as you would use bazel.
 
