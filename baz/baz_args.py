@@ -4,7 +4,7 @@ import argparse
 def parse_arguments():
     parser = argparse.ArgumentParser(
         description="""Baz is a wrapper around Bazel that provides a GUI interface for \
-setting build configuration options. If you need help with Bazel, run `bazel --help`.""",
+setting build configuration options. If you need help with Bazel, run `bazel --help`""",
         allow_abbrev=False,
     )
 
@@ -14,18 +14,18 @@ setting build configuration options. If you need help with Bazel, run `bazel --h
         action="store_true",
         default=False,
         help="""Emit a shell script to containing the raw Bazel build command, rather than executing it. This is
-useful for exporting vanilla Bazel build commands to people who do not have baz.""",
+useful for exporting vanilla Bazel build commands to people who do not have baz""",
     )
     parser.add_argument(
-        "-p", "--print-settings", action="store_true", default=False, help="Prints the settings configured for Baz."
+        "-p", "--print-settings", action="store_true", default=False, help="Prints the settings configured for Baz"
     )
-    parser.add_argument("-q", "--configure", action="store_true", default=False, help="Run the Baz configuration TUI.")
+    parser.add_argument("-q", "--configure", action="store_true", default=False, help="Run the Baz configuration TUI")
     parser.add_argument(
         "-d",
         "--delete-configuration",
         action="store_true",
         default=False,
-        help="Permenently delete the persistent configuration file for the current repository.",
+        help="Permenently delete the persistent configuration file for the current repository",
     )
 
     return parser.parse_known_args()

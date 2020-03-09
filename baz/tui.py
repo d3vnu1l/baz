@@ -113,7 +113,12 @@ class MainFrame(Frame):
 
     def _on_data_field_change(self):
         self.save()
-        self._save_button.disabled = False
+
+        # Check if TUI data matches persistent data
+        if self.data != self.inventory.persistent_data:
+            self._save_button.disabled = False
+        else:
+            self._save_button.disabled = True
 
     def _reset_config(self):
         """Reset form data but do not write to disk"""
