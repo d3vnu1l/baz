@@ -15,22 +15,22 @@ class BazelProber:
 
         # Grab all bazelrc lines that contain a config
         for root, _, files in os.walk(repo_root):
-            if "third_party" not in root:   # Todo: ignorefile
+            if "third_party" not in root:  # Todo: ignorefile
                 for file in files:
                     if file == ".bazelrc":
                         with open(os.path.join(root, file)) as f:
                             for line in f:
                                 # Enforce first contiguous strig contains ':' and does not start with a comment
-                                if ':' in line.split(' ')[0] and not line.startswith('#'):
+                                if ":" in line.split(" ")[0] and not line.startswith("#"):
                                     rc_lines_list.append(line)
 
         # Extract the configuration names
         for line in rc_lines_list:
             # Configs will be in the form of 'command:config_name --arg(s)', this just extracts 'config_name'
-            config_list.append(line.split(':')[1].split(' ')[0])
+            config_list.append(line.split(":")[1].split(" ")[0])
 
         # Convert to a dict and back to remove duplicates
-        return(list(dict.fromkeys(config_list)))
+        return list(dict.fromkeys(config_list))
 
     def get_compilation_mode_keyvalues():
         keys = ["compilation_mode"]

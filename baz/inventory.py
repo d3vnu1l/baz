@@ -1,11 +1,9 @@
-from dataclasses import dataclass
 from baz.bazel_prober import BazelProber
 from baz.filesystem import Filesystem
 
 
-@dataclass
 class BazConfigInventory:
-    '''Class for managing the use configuration inventory'''
+    """Class for managing the use configuration inventory"""
 
     def __init__(self):
         self._filesystem = Filesystem()
@@ -25,15 +23,11 @@ class BazConfigInventory:
         default_config.update(dict.fromkeys(self.config_keys, False))
 
         # Compilation Mode
-        (compilation_mode_key,
-         compilation_mode_values) = BazelProber.get_compilation_mode_keyvalues()
-        default_config.update({
-            compilation_mode_key[0]: compilation_mode_values[0],
-        })
+        (compilation_mode_key, compilation_mode_values) = BazelProber.get_compilation_mode_keyvalues()
+        default_config.update({compilation_mode_key[0]: compilation_mode_values[0]})
 
         # Toubleshooting
-        default_config.update(dict.fromkeys(
-            self.troubleshooting_keydict.keys(), False))
+        default_config.update(dict.fromkeys(self.troubleshooting_keydict.keys(), False))
 
         # Default Bazel Path
         default_config.update({"tool": "bazel"})
@@ -47,7 +41,7 @@ class BazConfigInventory:
         self._filesystem.write_configuration(data)
         self.persistent_data = data
 
-    _filesystem = None,
+    _filesystem = (None,)
     persistent_data = None
     config_keys = None
     troubleshooting_keydict = None

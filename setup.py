@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="baz",
-    version="0.2.6",
+    version="0.2.7",
     author="Ryan Deushane",
     author_email="radeushane@gmail.com",
     description="A wrapper for the Bazel build system that provides a curses GUI for persistent configuration.",
@@ -18,12 +18,9 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.5',
-    install_requires=[
-        'asciimatics>=1.11.0',
-        'dataclasses>=0.6',
-    ],
-    scripts=['bin/baz'],
-    test_suite='nose.collector',
-    tests_require=['nose'],
+    python_requires=">=3.5",
+    install_requires=["asciimatics>=1.11.0"],
+    scripts=["bin/baz"],
+    test_suite="nose.collector",
+    tests_require=["nose"],
 )

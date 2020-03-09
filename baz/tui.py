@@ -9,7 +9,7 @@ from asciimatics.screen import Screen
 from asciimatics.exceptions import ResizeScreenError, StopApplication
 
 
-_CONFIG_COLUMNS=3
+_CONFIG_COLUMNS = 3
 
 
 class MainFrame(Frame):
@@ -28,8 +28,8 @@ class MainFrame(Frame):
         layout.add_widget(Label(" "), 2)
         layout.add_widget(Label(" "), 3)
 
-        configs_per_column = math.ceil(len(self.inventory.config_keys)/_CONFIG_COLUMNS)
-        sorted_configs = tuple(itertools.zip_longest(*[iter(self.inventory.config_keys)]*configs_per_column))
+        configs_per_column = math.ceil(len(self.inventory.config_keys) / _CONFIG_COLUMNS)
+        sorted_configs = tuple(itertools.zip_longest(*[iter(self.inventory.config_keys)] * configs_per_column))
 
         for column in range(len(sorted_configs)):
             for config in sorted_configs[column]:
@@ -38,11 +38,18 @@ class MainFrame(Frame):
 
     def _create_compilation_modes_menu(self, layout):
         layout.add_widget(Label("Compilation Mode:"), 1)
-        layout.add_widget(DropdownList(
-            [("Fastbuild (Build as quickly as possible)", 'fastbuild'),
-             ("Debug (Build with symbols and no optimization)", 'dbg'),
-             ("Optimized (Build with full code optimization)", 'opt')],
-            name="compilation_mode", on_change=self._on_data_field_change), 2)
+        layout.add_widget(
+            DropdownList(
+                [
+                    ("Fastbuild (Build as quickly as possible)", "fastbuild"),
+                    ("Debug (Build with symbols and no optimization)", "dbg"),
+                    ("Optimized (Build with full code optimization)", "opt"),
+                ],
+                name="compilation_mode",
+                on_change=self._on_data_field_change,
+            ),
+            2,
+        )
 
     def _add_bazel_path_menu(self, layout):
         layout.add_widget(Label("Bazel Path:"), 1)
@@ -52,12 +59,14 @@ class MainFrame(Frame):
 
     def __init__(self, screen, inventory):
         self.inventory = inventory
-        super(MainFrame, self).__init__(screen,
-                                        int(screen.height * 10 // 11),
-                                        int(screen.width * 14 // 15),
-                                        data=inventory.persistent_data,
-                                        has_shadow=True,
-                                        name="Baz Configuration Menu")
+        super(MainFrame, self).__init__(
+            screen,
+            int(screen.height * 10 // 11),
+            int(screen.width * 14 // 15),
+            data=inventory.persistent_data,
+            has_shadow=True,
+            name="Baz Configuration Menu",
+        )
         self.set_theme("bright")
         self._save_button = Button("Save", self._save_config)
 
@@ -79,7 +88,9 @@ class MainFrame(Frame):
         # Layer (Troubleshooting)
         layout_troubleshooting = Layout([1, 8, 14, 1])
         self.add_layout(layout_troubleshooting)
-        self._create_checkboxes_from_dict(self.inventory.troubleshooting_keydict, layout_troubleshooting, "Troubleshooting")
+        self._create_checkboxes_from_dict(
+            self.inventory.troubleshooting_keydict, layout_troubleshooting, "Troubleshooting"
+        )
 
         # Layout 3 is just a dividor to match layout 1
         layout3 = Layout([1, 22, 1])
@@ -119,6 +130,7 @@ class MainFrame(Frame):
         self._save_config()
         raise StopApplication("User requested exit")
 
+
 # Event handler for global keys
 
 
@@ -130,15 +142,18 @@ def global_shortcuts(event):
 
 
 def play_scenes(screen, scene, inventory):
-    if sys.platform.startswith('win'):
+    if sys.platform.startswith("win"):
         background_color = 0
     else:
         background_color = 234  # To match vscode gray
 
-    screen.play([Scene([
-        Background(screen, bg=background_color),
-        MainFrame(screen, inventory)
-    ], -1)], stop_on_resize=True, start_scene=scene, allow_int=True, unhandled_input=global_shortcuts)
+    screen.play(
+        [Scene([Background(screen, bg=background_color), MainFrame(screen, inventory)], -1)],
+        stop_on_resize=True,
+        start_scene=scene,
+        allow_int=True,
+        unhandled_input=global_shortcuts,
+    )
 
 
 def run_tui(inventory):

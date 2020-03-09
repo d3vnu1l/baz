@@ -10,19 +10,19 @@ def parse_bazel_arguments(extra_arguments, verbose=False):
 
     for argument in extra_arguments:
         # Bazel allows pre-arguments, so we must find the first argument that doesn't begin with `-`
-        if argument.startswith('-'):
+        if argument.startswith("-"):
             if request_type is None:
                 pre_arguments.append(argument)
             else:
                 post_arguments.append(argument)
-        elif argument.startswith(('//', ':')):
+        elif argument.startswith(("//", ":")):
             targets.append(argument)
         elif request_type is None:
             request_type = argument
         elif post_arguments is not None:  # Catch --define asdf=asdf in post arguments
             post_arguments.append(argument)
         else:
-            raise Exception('Could not process argument: {}'.format(argument))
+            raise Exception("Could not process argument: {}".format(argument))
 
     if verbose:
         print("Request_type = {}".format(request_type))
@@ -49,6 +49,6 @@ def execute_command(command_line, shell=False):
     except subprocess.CalledProcessError as status:
         result = status.returncode
     except KeyboardInterrupt:
-        pass    # Gracefully allow the user to cancel the build
+        pass  # Gracefully allow the user to cancel the build
 
     return result
