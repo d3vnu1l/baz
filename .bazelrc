@@ -1,0 +1,15 @@
+# build:not_a_config This is a comment, this is not a config
+build:config_a --define do=nothing
+build:config_b --define do=nothing
+build:config_c --define do=nothing
+
+build:config_d --define do=nothing
+build:config_d --define do=nothing
+build:config_d --define do=nothing
+
+build:config_e --define do=nothing
+build:config_f --define do=nothing
+build:config_f --define do=nothing
+
+build:config_g --define do=nothing
+build:config_h --define do=nothing
